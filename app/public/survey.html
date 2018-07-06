@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hot Restaurant</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <h1>Survey Questions</h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-10">
+                    <h2>About You</h2>
+                    <form>
+                        <div class="form-group">
+                            <label>Name (Required)</label>
+                            <input class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label>Link to Photo Image (Required)</label>
+                            <input class="form-control" id="photo_link">
+                        </div>
+                        <div id="selections"></div>
+                       
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                    </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        questions = [
+            "Your mind is always buzzing with unexplored ideas and plans.",
+            "Generally speaking, you rely more on your experience than your imagination.",
+            "You find it easy to stay relaxed and focused even when there is some pressure.",
+            "You rarely do something just out of sheer curiosity.",
+            "People can rarely upset you.",
+            "It is often difficult for you to relate to other people’s feelings.",
+            "In a discussion, truth should be more important than people’s sensitivities.",
+            "You rarely get carried away by fantasies and ideas.",
+            "You think that everyone’s views should be respected regardless of whether they are supported by facts or not.",
+            "You feel more energetic after spending time with a group of people."
+        ]
+
+        var selection_div = $("#selections")
+        var i = questions.length;
+        questions.forEach(element => {
+            var div_form = $("<div class='form-group'>");
+            var head = $("<h3>").text("Question " + i);
+            var label = $("<label>").text(element);
+            var select = $("<select>").attr("id","option"+i).addClass("selectpicker");
+            var options = [
+                "Select an Option",
+                "1 (Strongly Disagree)",
+                "2",
+                "3",
+                "4",
+                "5 (Strongly Agree)"
+            ]
+            for(var j = 0; j < options.length; j++){
+                select.append("<option>" + options[j] + "</option>");
+            }
+            div_form.append(head).append(label).append("<br>").append(select);
+            selection_div.prepend(div_form);
+            i--;
+        });
+    </script>
+  
+
+</body>
+</html>
