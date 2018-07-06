@@ -33,7 +33,29 @@
                         </div>
                         <div id="selections"></div>
                        
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                        <!-- Trigger the modal with a button -->
+                        <!-- data-toggle="modal" data-target="#myModal" -->
+                        <button id="submit_bnt" type="button" class="btn btn-info btn-lg" >submit</button>
+
+                        <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Your most compatible friend:</h4>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </form>
             </div>
         </div>
@@ -55,14 +77,14 @@
         ]
 
         var selection_div = $("#selections")
-        var i = questions.length;
+        var i = 1;
         questions.forEach(element => {
             var div_form = $("<div class='form-group'>");
             var head = $("<h3>").text("Question " + i);
             var label = $("<label>").text(element);
-            var select = $("<select>").attr("id","option"+i).addClass("selectpicker");
+            var select = $("<select>").attr("id","option"+i).addClass("chosen-select");
             var options = [
-                "Select an Option",
+                "",
                 "1 (Strongly Disagree)",
                 "2",
                 "3",
@@ -73,9 +95,56 @@
                 select.append("<option>" + options[j] + "</option>");
             }
             div_form.append(head).append(label).append("<br>").append(select);
-            selection_div.prepend(div_form);
-            i--;
+            selection_div.append(div_form);
+            i++;
         });
+
+
+        function convertStringToInt(scores){
+            var result = []
+            scores.forEach(element =>{
+                result.push(parseInt(element[0]));
+            })
+            return result;
+        }
+
+        $("#submit_bnt").on("click",function(event){
+            event.preventDefault();
+            var survey = {
+                name : $("#name").val().trim(),
+                photo : $("#photo_link").val().trim(),
+                scores : [
+                    $("#option1").val(),
+                    $("#option2").val(),
+                    $("#option3").val(),
+                    $("#option4").val(),
+                    $("#option5").val(),
+                    $("#option6").val(),
+                    $("#option7").val(),
+                    $("#option8").val(),
+                    $("#option9").val(),
+                    $("#option10").val(),
+                ],
+                
+            };
+            console.log(survey);
+            
+            if([survey.name,survey.photo].indexOf("") !== -1 || survey.scores.indexOf("") !== -1){
+                alert("Please fill out all fields before submitting!");
+                
+            }else{
+                survey.scores = convertStringToInt(survey.scores);
+                $.post("/api/friends",survey).then(function(data){
+                    console.log(data);
+                    var modal_body = $(".modal-body").empty();
+
+                    modal_body.append("<p>"+data.name+"</p>");
+                    modal_body.append("<img src="+data.photo+" alt='Sorry, we cannot display the image' height='300' width='350'>");
+                    $('#myModal').modal({'show':true});
+                })
+            }
+            
+        })
     </script>
   
 

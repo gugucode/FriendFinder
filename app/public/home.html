@@ -18,31 +18,20 @@
             <hr>
             <h3>Answer a few basic questions.</h3>
             <h3>Then find the friend with the greatest compatibility!</h3>
-            <button id = "survey-bnt" type="button" class="btn btn-primary">Go to survey</button>
+            <button id = "survey-bnt" type="button" class="btn btn-primary"><a href="survey" style="color:white">Go to survey</a></button>
         </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    <a href="/api/friends">API Friends List</a>
+                    |
+                    <a href="https://github.com/gugucode/FriendFinder">GitHub Repo</a>
+                </p>
+            </div>
+        </footer>
     </div>
 
-
-  <script type="text/javascript">
-    $("#survey-btn").on("click", function() {
-      var searchedCharacter = $("#character-search").val().trim();
-
-      $.get("/survey", function(data) {
-        console.log(data);
-        if (data) {
-          $("#stats").show();
-          $("#name").text(data.name);
-          $("#role").text(data.role);
-          $("#age").text(data.age);
-          $("#force-points").text(data.forcePoints);
-        }
-        else {
-          $("#name").text("The force is not strong with this one. Your character was not found.");
-          $("#stats").hide();
-        }
-      });
-    });
-  </script>
 
 </body>
 </html>
