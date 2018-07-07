@@ -31,10 +31,9 @@
                             <label>Link to Photo Image (Required)</label>
                             <input class="form-control" id="photo_link">
                         </div>
+                        <!-- display all questions here -->
                         <div id="selections"></div>
                        
-                        <!-- Trigger the modal with a button -->
-                        <!-- data-toggle="modal" data-target="#myModal" -->
                         <button id="submit_bnt" type="button" class="btn btn-info btn-lg" >submit</button>
 
                         <!-- Modal -->
@@ -78,11 +77,8 @@
 
         var selection_div = $("#selections")
         var i = 1;
+        // print the questions and the options
         questions.forEach(element => {
-            var div_form = $("<div class='form-group'>");
-            var head = $("<h3>").text("Question " + i);
-            var label = $("<label>").text(element);
-            var select = $("<select>").attr("id","option"+i).addClass("chosen-select");
             var options = [
                 "",
                 "1 (Strongly Disagree)",
@@ -91,6 +87,11 @@
                 "4",
                 "5 (Strongly Agree)"
             ]
+            var div_form = $("<div class='form-group'>");
+            var head = $("<h3>").text("Question " + i);
+            var label = $("<label>").text(element);
+            var select = $("<select>").attr("id","option"+i).addClass("chosen-select");
+    
             for(var j = 0; j < options.length; j++){
                 select.append("<option>" + options[j] + "</option>");
             }
@@ -100,6 +101,7 @@
         });
 
 
+        // convert option from string to integer 
         function convertStringToInt(scores){
             var result = []
             scores.forEach(element =>{
@@ -129,15 +131,13 @@
             };
             console.log(survey);
             
+            // If user doesn't fill out all fields, send an alert and don't post to server
             if([survey.name,survey.photo].indexOf("") !== -1 || survey.scores.indexOf("") !== -1){
-                alert("Please fill out all fields before submitting!");
-                
-            }else{
+                alert("Please fill out all fields before submitting!");                
+            }else{ //else, use post to send new data to server and save it
                 survey.scores = convertStringToInt(survey.scores);
-                $.post("/api/friends",survey).then(function(data){
-                    console.log(data);
+                $.post("/api/friends",survey).then(function(data){ // after we get the response from server, print the data
                     var modal_body = $(".modal-body").empty();
-
                     modal_body.append("<p>"+data.name+"</p>");
                     modal_body.append("<img src="+data.photo+" alt='Sorry, we cannot display the image' height='300' width='350'>");
                     $('#myModal').modal({'show':true});
