@@ -11,7 +11,7 @@ This full-stack site will take in results from your users' surveys, then compare
 * After download, in your terminal, run "npm install" inside the FriendFinder folder that has package.json to install dependend packages.
 * Run "node server.js" inside FriendFinder folder to start server. Also, there are some dummy data in FriendFinder/app/data/friends.js.
 * Now you can go to http://localhost:3000/, and have fun there.
-* We also have a deployed version for you to play with: 
+* We also have a deployed version for you to play with: https://intense-harbor-57726.herokuapp.com/
 
 ### How to use FriendFinder application
 
